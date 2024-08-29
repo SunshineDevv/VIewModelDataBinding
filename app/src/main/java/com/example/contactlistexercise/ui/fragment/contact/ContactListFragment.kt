@@ -1,6 +1,7 @@
-package com.example.contactlistexercise
+package com.example.contactlistexercise.ui.fragment.contact
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,16 +12,18 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.contactlistexercise.ui.adapter.contact.ContactListAdapter
+import com.example.contactlistexercise.R
 import com.example.contactlistexercise.databinding.FragmentContactListBinding
 
 class ContactListFragment : Fragment(), ContactListAdapter.RecyclerItemClicked {
     private var binding: FragmentContactListBinding? = null
 
-    private var contactList: MutableList<ContactModel> = mutableListOf()
+    private var contactList: List<ContactModel> = mutableListOf()
 
-    private lateinit var adapter:ContactListAdapter
+    private lateinit var adapter: ContactListAdapter
 
-    private val contactViewModel:ContactListViewModel by activityViewModels()
+    private val contactViewModel: ContactListViewModel by activityViewModels()
 
     private val args: ContactListFragmentArgs by navArgs()
 
@@ -51,6 +54,7 @@ class ContactListFragment : Fragment(), ContactListAdapter.RecyclerItemClicked {
         binding?.recyclerViewContact?.adapter = adapter
 
         contactViewModel.contacts.observe(viewLifecycleOwner){ contacts ->
+            Log.i("MY_LOG", "onViewCreated: ${contacts}")
             adapter.updateContactList(contacts)
         }
 
@@ -59,9 +63,9 @@ class ContactListFragment : Fragment(), ContactListAdapter.RecyclerItemClicked {
         }
     }
 
-    override fun onClickedItem(contact: ContactModel) {
+    override fun onClickedItem(index: Int) {
 
-        val dialog = EditContactDialog(requireContext(), contact, contactViewModel)
+        val dialog = EditContactDialog(requireContext(), index, contactViewModel)
 
         dialog.show()
         dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
