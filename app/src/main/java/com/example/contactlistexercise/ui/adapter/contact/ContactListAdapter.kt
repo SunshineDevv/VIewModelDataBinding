@@ -1,12 +1,13 @@
-package com.example.contactlistexercise
+package com.example.contactlistexercise.ui.adapter.contact
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactlistexercise.databinding.ItemContactBinding
+import com.example.contactlistexercise.ui.fragment.contact.ContactModel
 
-class ContactListAdapter (private var contactList: MutableList<ContactModel>, private val itemClickedListener: RecyclerItemClicked):
+class ContactListAdapter (private var contactList: List<ContactModel>, private val itemClickedListener: RecyclerItemClicked):
     RecyclerView.Adapter<ContactListAdapter.ContactListViewHolder>() {
 
     class ContactListViewHolder(val binding: ItemContactBinding):RecyclerView.ViewHolder(binding.root)
@@ -22,15 +23,16 @@ class ContactListAdapter (private var contactList: MutableList<ContactModel>, pr
 
     override fun onBindViewHolder(holder: ContactListViewHolder, position: Int) {
         val contact = contactList[position]
-        val contactName = contactList[position].name
-        val contactPhone = contactList[position].phone
-        val contactEmail = contactList[position].email
+        val contactName = contact.name
+        val contactPhone = contact.phone
+        val contactEmail = contact.email
+
         holder.binding.textViewName.text = contactName
         holder.binding.textViewNumber.text = contactPhone
         holder.binding.textViewPost.text = contactEmail
 
         holder.itemView.setOnClickListener {
-            itemClickedListener.onClickedItem(contact)
+            itemClickedListener.onClickedItem(position)
         }
 
         holder.itemView.setOnLongClickListener {
@@ -40,13 +42,13 @@ class ContactListAdapter (private var contactList: MutableList<ContactModel>, pr
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateContactList(newContactList: MutableList<ContactModel>) {
+    fun updateContactList(newContactList: List<ContactModel>) {
         contactList = newContactList
         notifyDataSetChanged()
     }
 
     interface RecyclerItemClicked{
-        fun onClickedItem(contact: ContactModel)
+        fun onClickedItem(index: Int)
         fun onLongClickedItem(contact: ContactModel, position: Int)
     }
 }

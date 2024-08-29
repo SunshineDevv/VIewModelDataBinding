@@ -1,4 +1,4 @@
-package com.example.contactlistexercise
+package com.example.contactlistexercise.ui.fragment.contact
 
 import android.app.Dialog
 import android.content.Context
@@ -7,7 +7,7 @@ import android.view.Window
 import android.widget.Toast
 import com.example.contactlistexercise.databinding.CustomDialogUpdateContactBinding
 
-class EditContactDialog(context: Context, private val contact: ContactModel, private val contactViewModel: ContactListViewModel): Dialog(context) {
+class EditContactDialog(context: Context, private val index: Int, private val contactViewModel: ContactListViewModel): Dialog(context) {
 
     private var binding: CustomDialogUpdateContactBinding? = null
 
@@ -21,9 +21,9 @@ class EditContactDialog(context: Context, private val contact: ContactModel, pri
         binding = CustomDialogUpdateContactBinding.inflate(layoutInflater)
         binding?.root?.let{ setContentView(it) }
 
-        binding?.editTextName?.setText(contact.name)
-        binding?.editTextPhone?.setText(contact.phone)
-        binding?.editTextEmail?.setText(contact.email)
+//        binding?.editTextName?.setText(contact.name)
+//        binding?.editTextPhone?.setText(contact.phone)
+//        binding?.editTextEmail?.setText(contact.email)
 
         binding?.buttonCancel?.setOnClickListener {
             dismiss()
@@ -35,8 +35,8 @@ class EditContactDialog(context: Context, private val contact: ContactModel, pri
             val newEmail = binding?.editTextEmail?.text
 
             if (newName.toString().isNotEmpty() && newPhone.toString().isNotEmpty() && newEmail.toString().isNotEmpty()) {
-                val updatedContact = contact.copy(name = newName.toString(), phone = newPhone.toString(), email = newEmail.toString())
-                contactViewModel.updateContact(contact, updatedContact)
+                val updatedContact = ContactModel(name = newName.toString(), phone = newPhone.toString(), email = newEmail.toString())
+                contactViewModel.updateContact(index, updatedContact)
             } else {
                 Toast.makeText(context, "All fields are required", Toast.LENGTH_SHORT).show()
             }
