@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
@@ -15,7 +16,7 @@ import com.example.contactlistexercise.databinding.FragmentContactListBinding
 class ContactListFragment : Fragment(), ContactListAdapter.RecyclerItemClicked {
     private var binding: FragmentContactListBinding? = null
 
-    private var contactList: List<ContactModel> = listOf()
+    private var contactList: MutableList<ContactModel> = mutableListOf()
 
     private lateinit var adapter:ContactListAdapter
 
@@ -59,7 +60,22 @@ class ContactListFragment : Fragment(), ContactListAdapter.RecyclerItemClicked {
     }
 
     override fun onClickedItem(contact: ContactModel) {
+
         val dialog = EditContactDialog(requireContext(), contact, contactViewModel)
+
+        dialog.show()
+        dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+    }
+
+    override fun onLongClickedItem(contact: ContactModel, position: Int) {
+
+        val dialog = DeleteContactDialog(requireContext())
+
+        dialog.onSubmitButtonClick = {
+            contactViewModel.deleteContact(contact, position)
+            Toast.makeText(requireContext(), "Contact was successfully deleted!", Toast.LENGTH_LONG).show()
+        }
+
         dialog.show()
         dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
     }

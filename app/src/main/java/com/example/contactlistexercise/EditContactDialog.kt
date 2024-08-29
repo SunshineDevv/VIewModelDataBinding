@@ -16,7 +16,7 @@ class EditContactDialog(context: Context, private val contact: ContactModel, pri
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
 
-        setCanceledOnTouchOutside(false)
+        setCancelable(false)
 
         binding = CustomDialogUpdateContactBinding.inflate(layoutInflater)
         binding?.root?.let{ setContentView(it) }

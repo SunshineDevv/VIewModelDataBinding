@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactlistexercise.databinding.ItemContactBinding
 
-class ContactListAdapter (private var contactList: List<ContactModel>, private val itemClickedListener: RecyclerItemClicked):
+class ContactListAdapter (private var contactList: MutableList<ContactModel>, private val itemClickedListener: RecyclerItemClicked):
     RecyclerView.Adapter<ContactListAdapter.ContactListViewHolder>() {
 
     class ContactListViewHolder(val binding: ItemContactBinding):RecyclerView.ViewHolder(binding.root)
@@ -32,15 +32,21 @@ class ContactListAdapter (private var contactList: List<ContactModel>, private v
         holder.itemView.setOnClickListener {
             itemClickedListener.onClickedItem(contact)
         }
+
+        holder.itemView.setOnLongClickListener {
+            itemClickedListener.onLongClickedItem(contact, position)
+            true
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateContactList(newContactList: List<ContactModel>) {
+    fun updateContactList(newContactList: MutableList<ContactModel>) {
         contactList = newContactList
         notifyDataSetChanged()
     }
 
     interface RecyclerItemClicked{
         fun onClickedItem(contact: ContactModel)
+        fun onLongClickedItem(contact: ContactModel, position: Int)
     }
 }

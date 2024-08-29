@@ -11,44 +11,35 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Updating contact"
+            android:text="Deleting contact"
+            android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/black">
         </TextView>
 
-        <EditText
-            android:id="@+id/editTextName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Name"
-            android:layout_marginTop="12dp"/>
-
-        <EditText
-            android:id="@+id/editTextPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Phone"
-            android:inputType="phone" />
-
-        <EditText
-            android:id="@+id/editTextEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="textEmailAddress" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:text="Are you sure, you want delete this contact?"
+            android:textSize="20sp"
+            android:textColor="@color/black">
+        </TextView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginTop="12dp"
             android:gravity="end">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/buttonUpdate"
+                android:id="@+id/buttonSubmit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
-                android:text="Update"
+                android:text="Submit"
                 android:textSize="16sp"
                 android:textColor="@color/black">
 
