@@ -71,5 +71,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextTextPostalAddress" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonToContactList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="To contact list"
+            android:padding="10dp"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+        </androidx.appcompat.widget.AppCompatButton>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

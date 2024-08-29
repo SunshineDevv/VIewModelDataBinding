@@ -24,12 +24,15 @@
             app:destination="@id/addContactFragment" />
         <argument
             android:name="name"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue="null" />
         <argument
             android:name="phone"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue="null" />
         <argument
             android:name="email"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue="null" />
     </fragment>
 </navigation>

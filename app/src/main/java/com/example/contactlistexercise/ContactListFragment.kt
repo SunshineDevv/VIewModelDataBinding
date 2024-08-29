@@ -5,14 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contactlistexercise.databinding.FragmentContactListBinding
 
-
-class ContactListFragment : Fragment() {
+class ContactListFragment : Fragment(), ContactListAdapter.RecyclerItemClicked {
     private var binding: FragmentContactListBinding? = null
 
     private var contactList: List<ContactModel> = listOf()
@@ -21,7 +21,7 @@ class ContactListFragment : Fragment() {
 
     private val contactViewModel:ContactListViewModel by activityViewModels()
 
-    val args: ContactListFragmentArgs by navArgs()
+    private val args: ContactListFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,10 +39,12 @@ class ContactListFragment : Fragment() {
             val phone = args.phone
             val email = args.email
 
-            contactViewModel.addTask(name, phone, email)
+            if(name != "null" && phone != "null" && email != "null"){
+                contactViewModel.addContact(name, phone, email)
+            }
         }
 
-        adapter = ContactListAdapter(contactList)
+        adapter = ContactListAdapter(contactList, this)
 
         binding?.recyclerViewContact?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerViewContact?.adapter = adapter
@@ -54,5 +56,11 @@ class ContactListFragment : Fragment() {
         binding?.buttonBack?.setOnClickListener{
             Navigation.findNavController(view).navigate(R.id.navigateContactList_toAddContact)
         }
+    }
+
+    override fun onClickedItem(contact: ContactModel) {
+        val dialog = EditContactDialog(requireContext(), contact, contactViewModel)
+        dialog.show()
+        dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
     }
 }
