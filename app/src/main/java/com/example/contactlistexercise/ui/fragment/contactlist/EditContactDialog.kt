@@ -1,4 +1,4 @@
-package com.example.contactlistexercise
+package com.example.contactlistexercise.ui.fragment.contactlist
 
 import android.app.Dialog
 import android.content.Context
@@ -7,7 +7,7 @@ import android.view.Window
 import android.widget.Toast
 import com.example.contactlistexercise.databinding.CustomDialogUpdateContactBinding
 
-class EditContactDialog(context: Context, private val contact: ContactModel, private val contactViewModel: ContactListViewModel): Dialog(context) {
+class EditContactDialog(context: Context, private val contact: ContactModel, private val position: Int, private val contactViewModel: ContactListViewModel): Dialog(context) {
 
     private var binding: CustomDialogUpdateContactBinding? = null
 
@@ -30,13 +30,13 @@ class EditContactDialog(context: Context, private val contact: ContactModel, pri
         }
 
         binding?.buttonUpdate?.setOnClickListener {
-            val newName = binding?.editTextName?.text
-            val newPhone = binding?.editTextPhone?.text
-            val newEmail = binding?.editTextEmail?.text
+            val newName = binding?.editTextName?.text.toString()
+            val newPhone = binding?.editTextPhone?.text.toString()
+            val newEmail = binding?.editTextEmail?.text.toString()
 
-            if (newName.toString().isNotEmpty() && newPhone.toString().isNotEmpty() && newEmail.toString().isNotEmpty()) {
-                val updatedContact = contact.copy(name = newName.toString(), phone = newPhone.toString(), email = newEmail.toString())
-                contactViewModel.updateContact(contact, updatedContact)
+            if (newName.isNotEmpty() && newPhone.isNotEmpty() && newEmail.isNotEmpty()) {
+                val updatedContact = ContactModel(newName,newPhone,newEmail)
+                contactViewModel.updateContact(position, updatedContact)
             } else {
                 Toast.makeText(context, "All fields are required", Toast.LENGTH_SHORT).show()
             }

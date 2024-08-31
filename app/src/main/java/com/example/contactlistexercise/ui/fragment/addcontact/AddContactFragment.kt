@@ -1,4 +1,4 @@
-package com.example.contactlistexercise
+package com.example.contactlistexercise.ui.fragment.addcontact
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import com.example.contactlistexercise.R
 import com.example.contactlistexercise.databinding.FragmentAddContactBinding
 
 
@@ -32,31 +34,39 @@ class AddContactFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initObservers()
+
         binding?.buttonAddContact?.setOnClickListener {
-
-            if (binding?.editTextName?.text?.trim()?.isEmpty() == true &&
-                binding?.editTextPhone?.text?.trim()?.isEmpty() == true &&
-                binding?.editTextTextPostalAddress?.text?.trim()?.isEmpty() == true
-            ) {
-                Toast.makeText(requireContext(), "All fields must be filled", Toast.LENGTH_LONG)
-                    .show()
-            } else {
-
-                val name = addContactViewModel.name.value
-                val phone = addContactViewModel.phone.value
-                val email = addContactViewModel.email.value
-
-                val action = AddContactFragmentDirections.navigateAddContactToContactList(
-                    name.toString(),
-                    phone.toString(),
-                    email.toString()
-                )
-                Navigation.findNavController(view).navigate(action)
-            }
+            addContactViewModel.addContact(binding?.editTextName?.text.toString(),
+                binding?.editTextPhone?.text.toString(),
+                binding?.editTextTextPostalAddress?.text.toString())
         }
 
         binding?.buttonToContactList?.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.navigateAddContact_toContactList)
+        }
+    }
+
+    private fun initObservers() {
+        addContactViewModel.state.observe(viewLifecycleOwner){ state ->
+            when(state) {
+                is AddState.Error -> {
+                    Toast.makeText(requireContext(), "All fields must be filled", Toast.LENGTH_LONG)
+                        .show()
+                }
+
+                is AddState.Success -> {
+                    val action = AddContactFragmentDirections.navigateAddContactToContactList(
+                        state.contact.name,
+                        state.contact.phone,
+                        state.contact.email
+                    )
+                    findNavController().navigate(action)
+                    addContactViewModel.clearState()
+                }
+
+                else -> {  }
+            }
         }
     }
 

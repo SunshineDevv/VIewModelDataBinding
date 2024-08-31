@@ -1,4 +1,4 @@
-package com.example.contactlistexercise
+package com.example.contactlistexercise.ui.fragment.contactlist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,12 +19,11 @@ class ContactListViewModel: ViewModel() {
         }
     }
 
-    fun updateContact(oldContact: ContactModel, newContact: ContactModel){
+    fun updateContact(position: Int, newContact: ContactModel){
         viewModelScope.launch(Dispatchers.IO) {
             val currentList = _contacts.value ?: return@launch
-            val index = currentList.indexOf(oldContact)
-            if (index >= 0) {
-                currentList[index] = newContact
+            if (position >= 0) {
+                currentList[position] = newContact
                 _contacts.postValue(currentList)
             }
         }

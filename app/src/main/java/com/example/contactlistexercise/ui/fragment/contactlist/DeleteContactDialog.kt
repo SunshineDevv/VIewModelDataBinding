@@ -1,4 +1,4 @@
-package com.example.contactlistexercise
+package com.example.contactlistexercise.ui.fragment.contactlist
 
 import android.app.Dialog
 import android.content.Context
