@@ -1,6 +1,7 @@
 package com.example.contactlistexercise.ui.fragment.contactlist
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,15 +13,19 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contactlistexercise.R
+import com.example.contactlistexercise.database.AppDatabase
+import com.example.contactlistexercise.database.model.ContactDb
 import com.example.contactlistexercise.databinding.FragmentContactListBinding
 import com.example.contactlistexercise.ui.adapter.contactlist.ContactListAdapter
 
-class ContactListFragment : Fragment(), ContactListAdapter.RecyclerItemClicked {
+class ContactListFragment : Fragment(),  ContactListAdapter.RecyclerItemClicked{
     private var binding: FragmentContactListBinding? = null
 
-    private var contactList: List<ContactModel> = listOf()
+    private var contactList: List<ContactDb> = listOf()
 
     private lateinit var adapter: ContactListAdapter
+
+    private lateinit var database: AppDatabase
 
     private val contactViewModel: ContactListViewModel by activityViewModels()
 
@@ -56,25 +61,26 @@ class ContactListFragment : Fragment(), ContactListAdapter.RecyclerItemClicked {
             adapter.updateContactList(contacts)
         }
 
+        database = AppDatabase.getDatabase(requireContext())
+
         binding?.buttonBack?.setOnClickListener{
             Navigation.findNavController(view).navigate(R.id.navigateContactList_toAddContact)
         }
     }
 
-    override fun onClickedItem(contact: ContactModel, position: Int) {
-
-        val dialog = EditContactDialog(requireContext(), contact, position, contactViewModel)
+    override fun onClickedItem(contact: ContactDb) {
+        val dialog = EditContactDialog(requireContext(), contact, contact.id, contactViewModel)
 
         dialog.show()
         dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
     }
 
-    override fun onLongClickedItem(contact: ContactModel, position: Int) {
+    override fun onLongClickedItem(contact: ContactDb) {
 
         val dialog = DeleteContactDialog(requireContext())
 
         dialog.onSubmitButtonClick = {
-            contactViewModel.deleteContact(contact, position)
+            contactViewModel.deleteContact(contact)
             Toast.makeText(requireContext(), "Contact was successfully deleted!", Toast.LENGTH_LONG).show()
         }
 
