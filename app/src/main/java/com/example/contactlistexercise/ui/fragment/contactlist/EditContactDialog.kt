@@ -3,13 +3,12 @@ package com.example.contactlistexercise.ui.fragment.contactlist
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Window
 import android.widget.Toast
 import com.example.contactlistexercise.database.model.ContactDb
 import com.example.contactlistexercise.databinding.CustomDialogUpdateContactBinding
 
-class EditContactDialog(context: Context, private val contact: ContactDb, private val position: Long, private val contactViewModel: ContactListViewModel): Dialog(context) {
+class EditContactDialog(context: Context, private val contact: ContactDb, private val contactViewModel: ContactListViewModel): Dialog(context) {
 
     private var binding: CustomDialogUpdateContactBinding? = null
 
@@ -38,7 +37,7 @@ class EditContactDialog(context: Context, private val contact: ContactDb, privat
 
             if (newName.isNotEmpty() && newPhone.isNotEmpty() && newEmail.isNotEmpty()) {
                 val updatedContact = ContactDb(name = newName, phone = newPhone, email = newEmail)
-                contactViewModel.updateContact(updatedContact, position)
+                contactViewModel.updateContact(updatedContact, contact.id)
             } else {
                 Toast.makeText(context, "All fields are required", Toast.LENGTH_SHORT).show()
             }

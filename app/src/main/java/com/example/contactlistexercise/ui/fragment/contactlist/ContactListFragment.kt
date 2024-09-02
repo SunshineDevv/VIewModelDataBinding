@@ -69,7 +69,7 @@ class ContactListFragment : Fragment(),  ContactListAdapter.RecyclerItemClicked{
     }
 
     override fun onClickedItem(contact: ContactDb) {
-        val dialog = EditContactDialog(requireContext(), contact, contact.id, contactViewModel)
+        val dialog = EditContactDialog(requireContext(), contact, contactViewModel)
 
         dialog.show()
         dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
