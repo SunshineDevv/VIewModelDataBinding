@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.contactlistexercise.database.model.ContactDb
 import com.example.contactlistexercise.databinding.ItemContactBinding
+import com.example.contactlistexercise.ui.fragment.contactlist.ContactModel
 
-class ContactListAdapter (private var contactList: List<ContactDb>, private val itemClickedListener: RecyclerItemClicked):
+class ContactListAdapter (private var contactList: List<ContactModel>, private val itemClickedListener: RecyclerItemClicked):
     RecyclerView.Adapter<ContactListAdapter.ContactListViewHolder>() {
 
     class ContactListViewHolder(val binding: ItemContactBinding):RecyclerView.ViewHolder(binding.root)
@@ -41,13 +41,13 @@ class ContactListAdapter (private var contactList: List<ContactDb>, private val 
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateContactList(newContactList: List<ContactDb>) {
+    fun updateContactList(newContactList: List<ContactModel>) {
         contactList = newContactList
         notifyDataSetChanged()
     }
 
     interface RecyclerItemClicked{
-        fun onClickedItem(contact: ContactDb)
-        fun onLongClickedItem(contact: ContactDb)
+        fun onClickedItem(contact: ContactModel)
+        fun onLongClickedItem(contact: ContactModel)
     }
 }

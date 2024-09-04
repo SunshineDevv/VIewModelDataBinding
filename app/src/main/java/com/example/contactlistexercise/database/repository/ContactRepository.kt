@@ -1,6 +1,5 @@
 package com.example.contactlistexercise.database.repository
 
-import android.provider.ContactsContract.CommonDataKinds.Phone
 import androidx.lifecycle.LiveData
 import com.example.contactlistexercise.database.dao.ContactDao
 import com.example.contactlistexercise.database.model.ContactDb

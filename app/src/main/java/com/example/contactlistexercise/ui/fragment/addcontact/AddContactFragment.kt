@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.contactlistexercise.R
 import com.example.contactlistexercise.databinding.FragmentAddContactBinding
@@ -34,6 +33,8 @@ class AddContactFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        addContactViewModel.onStart(requireContext())
+
         initObservers()
 
         binding?.buttonAddContact?.setOnClickListener {
@@ -51,17 +52,14 @@ class AddContactFragment : Fragment() {
         addContactViewModel.state.observe(viewLifecycleOwner){ state ->
             when(state) {
                 is AddState.Error -> {
-                    Toast.makeText(requireContext(), "All fields must be filled", Toast.LENGTH_LONG)
+                    Toast.makeText(requireContext(), state.errorMsg, Toast.LENGTH_LONG)
                         .show()
+                    addContactViewModel.clearState()
                 }
 
                 is AddState.Success -> {
-                    val action = AddContactFragmentDirections.navigateAddContactToContactList(
-                        state.contact.name,
-                        state.contact.phone,
-                        state.contact.email
-                    )
-                    findNavController().navigate(action)
+                    Toast.makeText(requireContext(), state.successMsg, Toast.LENGTH_LONG)
+                        .show()
                     addContactViewModel.clearState()
                 }
 
