@@ -1,16 +1,20 @@
 package com.example.contactlistexercise.ui.fragment.addcontact
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.contactlistexercise.R
 import com.example.contactlistexercise.databinding.FragmentAddContactBinding
+import java.time.LocalDate
+import java.util.Locale
 
 
 class AddContactFragment : Fragment() {
@@ -30,6 +34,7 @@ class AddContactFragment : Fragment() {
         return binding?.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -38,9 +43,10 @@ class AddContactFragment : Fragment() {
         initObservers()
 
         binding?.buttonAddContact?.setOnClickListener {
+            val dateCreate = System.currentTimeMillis()
             addContactViewModel.addContact(binding?.editTextName?.text.toString(),
                 binding?.editTextPhone?.text.toString(),
-                binding?.editTextTextPostalAddress?.text.toString())
+                binding?.editTextTextPostalAddress?.text.toString(),dateCreate)
         }
 
         binding?.buttonToContactList?.setOnClickListener {

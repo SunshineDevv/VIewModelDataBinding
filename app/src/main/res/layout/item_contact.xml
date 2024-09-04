@@ -16,32 +16,54 @@
 
         <TextView
             android:id="@+id/textViewName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
+            android:hint="Name"
             android:textStyle="bold"
-            android:layout_gravity="center"
-            android:textSize="28sp"/>
+            android:textSize="28sp"
+            android:layout_marginStart="8dp" />
 
         <TextView
             android:id="@+id/textViewNumber"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Phone"
             android:textSize="28sp"
             android:textColor="@color/black"
             android:layout_marginTop="4dp"
-            tools:layout_editor_absoluteX="116dp"
-            tools:layout_editor_absoluteY="174dp" />
+            android:layout_marginStart="8dp"/>
 
         <TextView
             android:id="@+id/textViewPost"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
+            android:hint="Email"
             android:textSize="28sp"
             android:layout_marginTop="4dp"
-            tools:layout_editor_absoluteX="40dp"
-            tools:layout_editor_absoluteY="214dp" />
+            android:layout_marginStart="8dp"/>
+
+        <TextView
+            android:id="@+id/textDateCreate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:gravity="end"
+            android:textSize="16sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"/>
+
+        <TextView
+            android:id="@+id/textDateUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:gravity="end"
+            android:textSize="16sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"/>
+
     </LinearLayout>
 
 

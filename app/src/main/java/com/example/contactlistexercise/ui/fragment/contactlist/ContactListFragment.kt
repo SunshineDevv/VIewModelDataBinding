@@ -16,6 +16,7 @@ import com.example.contactlistexercise.R
 import com.example.contactlistexercise.database.AppDatabase
 import com.example.contactlistexercise.databinding.FragmentContactListBinding
 import com.example.contactlistexercise.ui.adapter.contactlist.ContactListAdapter
+import com.example.contactlistexercise.ui.fragment.addcontact.AddState
 
 class ContactListFragment : Fragment(),  ContactListAdapter.RecyclerItemClicked{
     private var binding: FragmentContactListBinding? = null
@@ -43,12 +44,12 @@ class ContactListFragment : Fragment(),  ContactListAdapter.RecyclerItemClicked{
 
         contactViewModel.onStart(requireContext())
 
-        adapter = ContactListAdapter(contactList, this)
+        initObservers()
+
+        adapter = ContactListAdapter(contactList, this, requireContext())
 
         binding?.recyclerViewContact?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerViewContact?.adapter = adapter
-
-
 
         contactViewModel.contacts.observe(viewLifecycleOwner){ contacts ->
             adapter.updateContactList(contacts)
@@ -58,6 +59,21 @@ class ContactListFragment : Fragment(),  ContactListAdapter.RecyclerItemClicked{
 
         binding?.buttonBack?.setOnClickListener{
             Navigation.findNavController(view).navigate(R.id.navigateContactList_toAddContact)
+        }
+    }
+
+    private fun initObservers(){
+        contactViewModel.state.observe(viewLifecycleOwner){ state ->
+            when(state){
+                is AddState.Success -> {
+                    Toast.makeText(requireContext(),state.successMsg,Toast.LENGTH_LONG).show()
+                }
+                is AddState.Error -> {
+                    Toast.makeText(requireContext(),state.errorMsg,Toast.LENGTH_LONG).show()
+                }
+                else -> {}
+            }
+
         }
     }
 
@@ -73,7 +89,6 @@ class ContactListFragment : Fragment(),  ContactListAdapter.RecyclerItemClicked{
         val dialog = DeleteContactDialog(requireContext())
 
         dialog.onSubmitButtonClick = {
-            Log.i("TESTT","${contact.id}")
             contactViewModel.deleteContact(contact)
             Toast.makeText(requireContext(), "Contact was successfully deleted!", Toast.LENGTH_LONG).show()
         }

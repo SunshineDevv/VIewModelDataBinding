@@ -19,6 +19,6 @@ interface ContactDao {
     @Delete
     suspend fun deleteContact(contactDb: ContactDb)
 
-    @Query("UPDATE contacts set contact_name = :name, contact_phone = :phone, contact_email = :email where id = :id")
-    suspend fun updateContact(id: Long?, name: String?, phone: String?, email: String?)
+    @Query("UPDATE contacts set contact_name = :name, contact_phone = :phone, contact_email = :email, date_update = :updateDate where id = :id")
+    suspend fun updateContact(id: Long?, name: String?, phone: String?, email: String?, updateDate: Long?)
 }

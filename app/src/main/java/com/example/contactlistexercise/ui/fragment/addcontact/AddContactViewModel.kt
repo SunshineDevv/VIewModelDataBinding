@@ -27,10 +27,10 @@ class AddContactViewModel : ViewModel() {
         repository = ContactRepository(contactDao)
     }
 
-    fun addContact(name: String, phone: String, email: String) {
+    fun addContact(name: String, phone: String, email: String, dateCreate: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             if (name.isNotEmpty() && phone.isNotEmpty() && email.isNotEmpty()) {
-                repository.upsert(ContactDb(name = name, phone = phone, email = email))
+                repository.upsert(ContactDb(name = name, phone = phone, email = email, dateCreate = dateCreate, dateUpdate = null))
                 _state.postValue(AddState.Success("New contact was successfully added!"))
             } else {
                 _state.postValue(AddState.Error("All fields must be filled"))

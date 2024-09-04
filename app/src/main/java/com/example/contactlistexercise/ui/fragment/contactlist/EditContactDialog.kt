@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Window
 import android.widget.Toast
 import com.example.contactlistexercise.databinding.CustomDialogUpdateContactBinding
+import com.example.contactlistexercise.extensions.toFormattedDate
 
 class EditContactDialog(context: Context, private val contact: ContactModel, private val contactViewModel: ContactListViewModel): Dialog(context) {
 
@@ -34,12 +35,10 @@ class EditContactDialog(context: Context, private val contact: ContactModel, pri
             val newPhone = binding?.editTextPhone?.text.toString()
             val newEmail = binding?.editTextEmail?.text.toString()
 
-            if (newName.isNotEmpty() && newPhone.isNotEmpty() && newEmail.isNotEmpty()) {
-                val updatedContact = contact.copy(id = contact.id, name = newName, phone = newPhone, email = newEmail)
-                contactViewModel.updateContact(updatedContact)
-            } else {
-                Toast.makeText(context, "All fields are required", Toast.LENGTH_SHORT).show()
-            }
+            val dateUpdate = System.currentTimeMillis().toFormattedDate()
+
+            contactViewModel.updateContact(contact.id, newName, newPhone, newEmail, dateUpdate)
+
             dismiss()
         }
     }
