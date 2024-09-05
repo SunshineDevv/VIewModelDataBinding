@@ -2,6 +2,8 @@ package com.example.contactlistexercise.ui.fragment.addcontact
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -43,9 +45,12 @@ class AddContactFragment : Fragment() {
 
         binding?.buttonAddContact?.setOnClickListener {
             val dateCreate = System.currentTimeMillis()
-            addContactViewModel.addContact(binding?.editTextName?.text.toString(),
-                binding?.editTextPhone?.text.toString(),
-                binding?.editTextTextPostalAddress?.text.toString(),dateCreate)
+
+            val name = binding?.editTextName?.text.toString()
+            val phone = binding?.editTextPhone?.text.toString()
+            val email = binding?.editTextTextPostalAddress?.text.toString()
+
+            addContactViewModel.addContact(name, phone, email, dateCreate)
         }
 
         binding?.buttonToContactList?.setOnClickListener {
@@ -54,8 +59,8 @@ class AddContactFragment : Fragment() {
     }
 
     private fun initObservers() {
-        addContactViewModel.state.observe(viewLifecycleOwner){ state ->
-            when(state) {
+        addContactViewModel.state.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 is AddState.Error -> {
                     Toast.makeText(requireContext(), state.errorMsg, Toast.LENGTH_LONG)
                         .show()
@@ -68,9 +73,8 @@ class AddContactFragment : Fragment() {
                     addContactViewModel.clearState()
                 }
 
-                else -> {  }
+                else -> {}
             }
         }
     }
-
 }

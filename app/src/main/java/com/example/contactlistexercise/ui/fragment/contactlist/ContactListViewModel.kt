@@ -1,7 +1,6 @@
 package com.example.contactlistexercise.ui.fragment.contactlist
 
 import android.content.Context
-import android.provider.ContactsContract.CommonDataKinds.Phone
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -38,7 +37,6 @@ class ContactListViewModel : ViewModel() {
             it.dateUpdate ?: it.dateCreate
         }.toContactModelList())
     }
-
 
     fun deleteContact(contact: ContactModel) {
         viewModelScope.launch(Dispatchers.IO) {

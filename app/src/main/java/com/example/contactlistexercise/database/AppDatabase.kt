@@ -9,7 +9,8 @@ import com.example.contactlistexercise.database.model.ContactDb
 
 @Database(
     entities = [ContactDb::class],
-    version = 1
+    version = 1,
+    exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase(){
 

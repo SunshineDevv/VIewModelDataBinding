@@ -10,6 +10,7 @@ import com.example.contactlistexercise.database.model.ContactDb
 import com.example.contactlistexercise.database.repository.ContactRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.regex.Pattern
 
 class AddContactViewModel : ViewModel() {
 
@@ -28,9 +29,24 @@ class AddContactViewModel : ViewModel() {
     }
 
     fun addContact(name: String, phone: String, email: String, dateCreate: Long) {
+        if (!validatePhoneNumber(phone)) {
+            _state.postValue(AddState.Error("Number must be input correctly!"))
+            return
+        } else if (!validateEmailAddress(email)) {
+            _state.postValue(AddState.Error("Email must be input correctly!"))
+            return
+        }
         viewModelScope.launch(Dispatchers.IO) {
             if (name.isNotEmpty() && phone.isNotEmpty() && email.isNotEmpty()) {
-                repository.upsert(ContactDb(name = name, phone = phone, email = email, dateCreate = dateCreate, dateUpdate = null))
+                repository.upsert(
+                    ContactDb(
+                        name = name,
+                        phone = phone,
+                        email = email,
+                        dateCreate = dateCreate,
+                        dateUpdate = null
+                    )
+                )
                 _state.postValue(AddState.Success("New contact was successfully added!"))
             } else {
                 _state.postValue(AddState.Error("All fields must be filled"))
@@ -41,4 +57,18 @@ class AddContactViewModel : ViewModel() {
     fun clearState() {
         _state.value = AddState.Empty
     }
+
+    private fun validateEmailAddress(email: String): Boolean {
+        val regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+        val pattern = Pattern.compile(regex)
+        return pattern.matcher(email).matches()
+    }
+
+    private fun validatePhoneNumber(phoneNumber: String): Boolean {
+        val regex = "^\\+380\\d{9}$"
+        val pattern = Pattern.compile(regex)
+        return pattern.matcher(phoneNumber).matches()
+    }
 }
+
+
