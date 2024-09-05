@@ -34,8 +34,11 @@ class ContactListViewModel : ViewModel() {
     }
 
     private fun handleContactsChanged(contactDbs: List<ContactDb>) {
-        _contacts.postValue(contactDbs.toContactModelList())
+        _contacts.postValue(contactDbs.sortedByDescending {
+            it.dateUpdate ?: it.dateCreate
+        }.toContactModelList())
     }
+
 
     fun deleteContact(contact: ContactModel) {
         viewModelScope.launch(Dispatchers.IO) {
