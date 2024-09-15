@@ -70,5 +70,3 @@ class AddContactViewModel : ViewModel() {
         return pattern.matcher(phoneNumber).matches()
     }
 }
-
-

@@ -33,9 +33,10 @@ class ContactListViewModel : ViewModel() {
     }
 
     private fun handleContactsChanged(contactDbs: List<ContactDb>) {
-        _contacts.postValue(contactDbs.sortedByDescending {
+        val sortedList = contactDbs.sortedByDescending {
             it.dateUpdate ?: it.dateCreate
-        }.toContactModelList())
+        }.toContactModelList()
+        _contacts.postValue(sortedList)
     }
 
     fun deleteContact(contact: ContactModel) {
