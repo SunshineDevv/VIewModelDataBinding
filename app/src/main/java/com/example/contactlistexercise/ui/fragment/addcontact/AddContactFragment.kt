@@ -1,22 +1,16 @@
 package com.example.contactlistexercise.ui.fragment.addcontact
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.contactlistexercise.R
 import com.example.contactlistexercise.databinding.FragmentAddContactBinding
-import java.time.LocalDate
-import java.util.Locale
 
 
 class AddContactFragment : Fragment() {
@@ -47,7 +41,7 @@ class AddContactFragment : Fragment() {
             val dateCreate = System.currentTimeMillis()
 
             val name = binding?.editTextName?.text.toString()
-            val phone = binding?.editTextPhone?.text.toString()
+            val phone= binding?.editTextPhone?.text.toString()
             val email = binding?.editTextTextPostalAddress?.text.toString()
 
             addContactViewModel.addContact(name, phone, email, dateCreate)

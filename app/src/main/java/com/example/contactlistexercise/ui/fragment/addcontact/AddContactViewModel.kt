@@ -41,7 +41,7 @@ class AddContactViewModel : ViewModel() {
                 repository.upsert(
                     ContactDb(
                         name = name,
-                        phone = phone,
+                        phone = phone.replace(Regex("[^+0-9]"), ""),
                         email = email,
                         dateCreate = dateCreate,
                         dateUpdate = null
@@ -65,7 +65,7 @@ class AddContactViewModel : ViewModel() {
     }
 
     private fun validatePhoneNumber(phoneNumber: String): Boolean {
-        val regex = "^\\+380\\d{9}$"
+        val regex = "^\\+38-\\(\\d{3}\\)-\\d{3}-\\d{4}$"
         val pattern = Pattern.compile(regex)
         return pattern.matcher(phoneNumber).matches()
     }

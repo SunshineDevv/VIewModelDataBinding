@@ -47,6 +47,10 @@ class ContactListViewModel : ViewModel() {
 
     fun updateContact(id: Long, newName: String, newPhone: String, newEmail: String, dateUpdate: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            if (newPhone.length > 13 || newPhone.length < 13){
+                _state.postValue(AddState.ErrorLength("Length of number must be 13 symbols"))
+                return@launch
+            }
             if (newName.isNotEmpty() && newPhone.isNotEmpty() && newEmail.isNotEmpty() && dateUpdate.isNotEmpty()) {
                 repository.update(id, newName, newPhone, newEmail, dateUpdate.toDateInMillis())
                 _state.postValue(AddState.Success("Contact was updated!"))
@@ -54,5 +58,9 @@ class ContactListViewModel : ViewModel() {
                 _state.postValue(AddState.Error("All values must be filled"))
             }
         }
+    }
+
+    fun clearState() {
+        _state.value = AddState.Empty
     }
 }

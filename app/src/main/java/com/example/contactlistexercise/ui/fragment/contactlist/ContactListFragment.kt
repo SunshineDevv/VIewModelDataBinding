@@ -1,7 +1,6 @@
 package com.example.contactlistexercise.ui.fragment.contactlist
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contactlistexercise.R
 import com.example.contactlistexercise.database.AppDatabase
@@ -19,6 +17,7 @@ import com.example.contactlistexercise.ui.adapter.contactlist.ContactListAdapter
 import com.example.contactlistexercise.ui.fragment.addcontact.AddState
 
 class ContactListFragment : Fragment(),  ContactListAdapter.RecyclerItemClicked{
+
     private var binding: FragmentContactListBinding? = null
 
     private var contactList: List<ContactModel> = listOf()
@@ -28,8 +27,6 @@ class ContactListFragment : Fragment(),  ContactListAdapter.RecyclerItemClicked{
     private lateinit var database: AppDatabase
 
     private val contactViewModel: ContactListViewModel by activityViewModels()
-
-    private val args: ContactListFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,9 +64,15 @@ class ContactListFragment : Fragment(),  ContactListAdapter.RecyclerItemClicked{
             when(state){
                 is AddState.Success -> {
                     Toast.makeText(requireContext(),state.successMsg,Toast.LENGTH_LONG).show()
+                    contactViewModel.clearState()
                 }
                 is AddState.Error -> {
                     Toast.makeText(requireContext(),state.errorMsg,Toast.LENGTH_LONG).show()
+                    contactViewModel.clearState()
+                }
+                is AddState.ErrorLength -> {
+                    Toast.makeText(requireContext(), state.errorMsg,Toast.LENGTH_LONG).show()
+                    contactViewModel.clearState()
                 }
                 else -> {}
             }
